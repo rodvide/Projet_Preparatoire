@@ -1,4 +1,4 @@
-import coursesDB from "../../database/coursesDB";
+import coursesDB from "../../database/coursesDB.js";
 const getCourses = async () => {
     return await coursesDB.get();
   };
@@ -8,6 +8,7 @@ const getCourses = async () => {
   };
   */
   const addCourse = async (name) => {
+    /*
     const courses = await coursesDB.get();
     const newId = courses[courses.length - 1].id + 1;
     const newCourse = {
@@ -16,7 +17,18 @@ const getCourses = async () => {
     };
     courses.push(newCourse);
     await coursesDB.set(courses);
+    */
+    let courses = await coursesDB.get();
+    const allIds = courses.map((v) => v.id);
+    const maxId = Math.max(...allIds);
+    courses.push({
+      id: maxId + 1,
+      nom: name,
+    });
+    await coursesDB.set(courses);
+    return courses;
   };
+
   const removeCourse = async (id) => {
     const courses = await coursesDB.get();
     const isPresent = courses.map((course) => course.id == id).includes(true);

@@ -1,4 +1,4 @@
-import studentsDB from "../../database/studentsDB";
+import studentsDB from "../../database/studentsDB.js";
 
 const getStudents = async () => {
   return await coursesDB.get();
@@ -6,6 +6,7 @@ const getStudents = async () => {
 
 const addStudent = async (name) => {
 
+  
   let students = await studentsDB.get();
   const allIds = students.map((v) => v.id);
   const maxId = Math.max(...allIds);

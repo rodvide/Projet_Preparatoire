@@ -1,10 +1,13 @@
 //imports
 import express from "express";
-import coursesDB from ".\domain\courses\courses.js";
+import bodyParser from "body-parser";
+import { getCourses, addCourse, removeCourse } from "./domain/courses/courses.js";
+import { getStudents, addStudent } from "./domain/students/students.js";
 
 //variables
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+app.use(bodyParser.json());
 
 //Main Page
 app.get("/", (req, res) => {
@@ -13,7 +16,19 @@ app.get("/", (req, res) => {
 
 //Courses
 app.get("/courses", (req, res) => {
-  res.send();
+  res.send(
+    /*[
+      {
+        nom: "Architecture web",
+        id: 1,
+      },
+      {
+        nom: "Construction de kayaks en papier",
+        id: 2,
+      },
+    ]*/
+    getCourses()
+  );
 });
 
 app.get("/courses/:courseId", (req, res) => {
@@ -21,6 +36,7 @@ app.get("/courses/:courseId", (req, res) => {
   });
 
 app.post("/courses/add", (req, res) => {
+    addCourse(req.body.nom);
     console.log(req.body);
     res.sendStatus(200);
   });
